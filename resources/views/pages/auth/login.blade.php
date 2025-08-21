@@ -44,9 +44,9 @@
                         <p class="text-muted">Before you get started, you must login or register if you don't already
                             have an account.</p>
                         <form method="POST"
-                            action="#"
+                            action="{{ route('login') }}"
                             class="needs-validation"
-                            novalidate="">
+                            novalidate=""> @csrf
                             <div class="form-group">
                                 <label for="email">Email</label>
                                 <input id="email"
