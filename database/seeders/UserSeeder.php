@@ -23,6 +23,8 @@ class UserSeeder extends Seeder
             'password'  => Hash::make('12345678'),
         ]);
 
+        User::factory(10)->create();
+
         //assign permission to role
         $role = Role::find(1);
         $permissions = Permission::all();

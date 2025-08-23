@@ -1,10 +1,31 @@
-@if($message = Session::get('success'))
-    <div class="alert alert-success alert-dismissable show fade">
-        <div class="alert-body">
-            <button class="close" data-dismiss="alert">
-                <span></span>
-            </button>
-            <p>{{ $message }}</p>
-        </div>
-    </div>
+{{-- layouts/alert.blade.php --}}
+
+@if ($message = Session::get('success'))
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: @json($message),
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
+        });
+    </script>
+@endif
+
+@if ($message = Session::get('error'))
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: @json($message),
+                showConfirmButton: true
+            });
+        });
+    </script>
 @endif

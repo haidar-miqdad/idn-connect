@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Str;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -30,6 +31,13 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone',
+        'code',
+        'address',
+        'status',
+        'image',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -72,4 +80,22 @@ class User extends Authenticatable
     {
         return $this->hasMany(Page::class);
     }
+
+    protected static function boot()
+{
+    parent::boot();
+
+    static::creating(function ($user) {
+        $user->code = 'MQDD-' . strtoupper(Str::random(6));
+    });
+}
+
+public function getRouteKeyName()
+{
+    return 'code';
+}
+
+
+
+
 }

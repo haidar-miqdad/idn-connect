@@ -15,7 +15,7 @@ class Category extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'slug'
+        'name', 'slug', 'description'
     ];
 
     /**
@@ -23,7 +23,7 @@ class Category extends Model
      *
      * @return void
      */
-    public function posts()
+    public function news()
     {
         return $this->hasMany(News::class);
     }

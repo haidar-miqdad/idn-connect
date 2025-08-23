@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('news', function (Blueprint $table) {
             $table->id();
+            $table->string('code')->unique();
             $table->foreignId('category_id')->references('id')->on('categories')->cascadeOnDelete();
             $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->string('title');
             $table->string('slug');
             $table->string('image');
-            $table->text('content');
+            $table->longText('content');
             $table->timestamps();
         });
     }
