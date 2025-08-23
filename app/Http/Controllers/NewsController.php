@@ -38,12 +38,16 @@ class NewsController extends Controller
 
     $data = $request->all();
 
-    // kalau ada image baru upload
-    if ($request->hasFile('image')) {
-        $filename = time() . '.' . $request->image->extension();
-        $request->image->storeAs('news', $filename, 'public');
-        $data['image'] = $filename;
-    }
+
+
+ if ($request->hasFile('image')) {
+    $filename = time() . '.' . $request->image->extension();
+    // simpan di storage/app/public/news
+    $path = $request->file('image')->storeAs('news', $filename, 'public');
+    $data['image'] = $path;
+}
+
+
 
     // generate slug dari title
     $data['slug'] = Str::slug($request->title);
@@ -59,6 +63,16 @@ class NewsController extends Controller
         $news = News::findOrFail($id);
         return view('pages.news.edit', compact('news'));
     }
+
+public function show($code)
+{
+    $news = News::with(['user', 'category'])
+                ->where('code', $code)
+                ->firstOrFail();
+
+    return view('pages.news.show', compact('news'));
+}
+
 
     public function update(Request $request, News $news){
 

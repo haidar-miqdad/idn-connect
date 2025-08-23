@@ -70,7 +70,7 @@
                                             <th>image</th>
                                             <th>Content</th>
                                             <th>Created At</th>
-                                            <th>Updated At</th>
+
                                         </tr>
 
                                         @foreach ($news as $item)
@@ -79,6 +79,8 @@
                                                 <div class="table-links">
                                                     <div class="bullet"></div>
                                                     <a href="{{ route('news.edit', $item->code) }}">Edit</a>
+                                                    <div class="bullet"></div>
+                                                    <a href="{{ route('news.show', $item->code) }}">show</a>
                                                     <div class="bullet"></div>
                                                     <a href="#"
                                                         onclick="event.preventDefault(); document.getElementById('delete-form-{{ $item->code }}').submit();"
@@ -94,17 +96,17 @@
                                                 </div>
                                             </td>
                                             <td>
-    @if($item->image)
-        <img src="{{ $item->image }}"
-             alt="image"
-             width="160"
-             height="90"
-             class="rounded"
-             style="object-fit: cover;">
-    @else
-        <span class="badge badge-warning">No Image</span>
-    @endif
-</td>
+                                                @if($item->image)
+                                                    <img src="{{ $item->image }}"
+                                                        alt="image"
+                                                        width="160"
+                                                        height="90"
+                                                        class="rounded"
+                                                        style="object-fit: cover;">
+                                                @else
+                                                    <span class="badge badge-warning">No Image</span>
+                                                @endif
+                                            </td>
 
 
 
@@ -122,9 +124,7 @@
                                             <td>
                                                 {{ $item->created_at->diffForHumans() }}
                                             </td>
-                                            <td>
-                                                {{ $item->updated_at->diffForHumans() }}
-                                            </td>
+
                                         </tr>
                                         @endforeach
 
