@@ -20,33 +20,40 @@ class NewsController extends Controller
     }
 
 
-    public function create(){
-        return view('pages.news.create');
-    }
+    public function create()
+{
+    $categories = \App\Models\Category::all();
+    return view('pages.news.create', compact('categories'));
+}
 
-    public function store(Request $request){
 
-        // dd($request->all());
+    public function store(Request $request)
+{
+    $request->validate([
+        'title'       => 'required',
+        'category_id' => 'required|exists:categories,id',
+        'image'       => 'nullable|image|mimes:png,jpg,jpeg,webp|max:2048',
+        'content'     => 'required',
+    ]);
 
-        $request->validate([
-            'title' => 'required',
-            'image' => 'required|image|mimes:png,jpg,jpeg,webp|max:2048',
-            'content' => 'required',
-        ]);
+    $data = $request->all();
 
+    // kalau ada image baru upload
+    if ($request->hasFile('image')) {
         $filename = time() . '.' . $request->image->extension();
         $request->image->storeAs('news', $filename, 'public');
-
-        $data = $request->all();
         $data['image'] = $filename;
-
-        $data['slug'] = Str::slug($request->title);
-
-        News::create($data);
-
-        return redirect()->route('news.index')->with('success', 'News created successfully.');
-
     }
+
+    // generate slug dari title
+    $data['slug'] = Str::slug($request->title);
+    $data['user_id'] = auth()->id(); // kalau pakai login
+
+    News::create($data);
+
+    return redirect()->route('news.index')->with('success', 'News created successfully.');
+}
+
 
     public function edit($id){
         $news = News::findOrFail($id);

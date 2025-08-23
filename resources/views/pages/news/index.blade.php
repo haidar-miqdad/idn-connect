@@ -94,12 +94,18 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                @if($item->image)
-                                                    <img src="{{ $item->image }}" alt="image" width="100" class="rounded">
-                                                @else
-                                                    <span class="badge badge-warning">No Image</span>
-                                                @endif
-                                            </td>
+    @if($item->image)
+        <img src="{{ $item->image }}"
+             alt="image"
+             width="160"
+             height="90"
+             class="rounded"
+             style="object-fit: cover;">
+    @else
+        <span class="badge badge-warning">No Image</span>
+    @endif
+</td>
+
 
 
 

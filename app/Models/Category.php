@@ -23,8 +23,16 @@ class Category extends Model
      *
      * @return void
      */
-    public function news()
-    {
-        return $this->hasMany(News::class);
-    }
+   
+
+
+    /**
+ * Get all news for this category.
+ *
+ * @return \Illuminate\Database\Eloquent\Relations\HasMany
+ */
+public function news()
+{
+    return $this->hasMany(News::class);
+}
 }
