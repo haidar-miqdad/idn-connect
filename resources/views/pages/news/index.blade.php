@@ -39,14 +39,14 @@
                                 <h4>All News</h4>
                             </div>
                             <div class="card-body">
-                                <div class="float-left">
+                                {{-- <div class="float-left">
                                     <select class="form-control selectric">
                                         <option>Action For Selected</option>
                                         <option>Move to Draft</option>
                                         <option>Move to Pending</option>
                                         <option>Delete Pemanently</option>
                                     </select>
-                                </div>
+                                </div> --}}
                                 <div class="float-right">
                                     <form>
                                         <div class="input-group">
@@ -69,7 +69,8 @@
                                             <th>Title</th>
                                             <th>image</th>
                                             <th>Content</th>
-                                            <th>Created At</th>
+                                            <th>Status</th>
+
 
                                         </tr>
 
@@ -97,19 +98,17 @@
                                             </td>
                                             <td>
                                                 @if($item->image)
-                                                    <img src="{{ $item->image }}"
+                                                    <img src="{{ $item->image_url }}"
                                                         alt="image"
                                                         width="160"
                                                         height="90"
                                                         class="rounded"
                                                         style="object-fit: cover;">
+
                                                 @else
                                                     <span class="badge badge-warning">No Image</span>
                                                 @endif
                                             </td>
-
-
-
 
                                             {{-- <td>
                                                 @if($item->image)
@@ -119,11 +118,34 @@
                                                        <span class="badge badge-warning">No Image</span>
                                                 @endif
                                             </td> --}}
-                                            <td>{{ $item->excerpt }}</td>
 
-                                            <td>
-                                                {{ $item->created_at->diffForHumans() }}
+                                            <td>{{ $item->excerpt }}
+                                                <div class="table-links">
+                                                    <div class="bullet"></div>
+                                                    <a href="#">{{ $item->created_at }}</a>
+                                                </div>
                                             </td>
+
+                                             <td>
+                                                @if ($item->status === 'pending')
+                                                    <span class="badge bg-warning text-dark">Pending</span>
+                                                @elseif ($item->status === 'approved')
+                                                    <span class="badge bg-success">Approved</span>
+                                                @elseif ($item->status === 'not_approved')
+                                                    <span class="badge bg-secondary">Not Approved</span>
+                                                @else
+                                                    <span class="badge bg-light text-dark">{{ ucfirst($item->status) }}</span>
+                                                @endif
+
+                                                <div class="table-links d-flex align-items-center mt-1">
+                                                    <div class="bullet text-info me-2"></div>
+                                                    <p class="text-info mb-0">{{ $item->created_at->diffForHumans() }}</p>
+                                                </div>
+                                            </td>
+
+
+
+
 
                                         </tr>
                                         @endforeach

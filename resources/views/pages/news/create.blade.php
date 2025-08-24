@@ -29,7 +29,7 @@
             <div class="section-body">
                 <h2 class="section-title">Create News</h2>
                 <p class="section-lead">
-                    Hey name 👋 We can’t wait to see what exciting news you’re about to write!
+                    Hey {{ Auth::user()->name }} 👋 We can’t wait to see what exciting news you’re about to write!
                 </p>
 
                 <div class="row">

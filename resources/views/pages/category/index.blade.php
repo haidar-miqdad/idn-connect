@@ -25,7 +25,7 @@
                     <div>
                         <h2 class="section-title">News Category</h2>
                 <p class="section-lead">
-                    Basically, the Bootstrap card can be given a color variant.
+                    Create a new category to better structure your news content.🚀
                 </p>
                     </div>
 

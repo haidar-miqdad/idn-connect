@@ -18,23 +18,10 @@
 
 
 
-
-            <!-- Thumbnail -->
-            @if($news->image)
-                <div class="mb-5">
-                    <img src="{{ $news->image}}"
-                         alt="Thumbnail"
-                         class="img-fluid rounded shadow"
-                         style="max-height: 500px; object-fit: cover; width:100%;">
-                </div>
-            @else
-                <div class="alert alert-warning mb-5">No Thumbnail Available</div>
-            @endif
-
             <!-- Meta Info -->
             <div class="row">
                 <!-- Author -->
-                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
                     <div class="card card-statistic-1 shadow-sm">
                         <div class="card-icon bg-primary">
                             <i class="far fa-user"></i>
@@ -51,7 +38,7 @@
                 </div>
 
                 <!-- Category -->
-                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
                     <div class="card card-statistic-1 shadow-sm">
                         <div class="card-icon bg-info">
                             <i class="fas fa-tag"></i>
@@ -68,7 +55,7 @@
                 </div>
 
                 <!-- Published At -->
-                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
                     <div class="card card-statistic-1 shadow-sm">
                         <div class="card-icon bg-success">
                             <i class="far fa-calendar-alt"></i>
@@ -77,19 +64,68 @@
                             <div class="card-header">
                                 <h4>Published At</h4>
                             </div>
-                            <div class="card-body">
-                                {{ $news->created_at->format('d M Y H:i') }}
+                            <div class="card-body ">
+                                {{ $news->created_at->format('d M Y') }}
                             </div>
                         </div>
                     </div>
                 </div>
+                    <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                        <div class="card card-statistic-1 shadow-sm">
+                            <div class="card-icon
+                                @if($news->status === 'approved') bg-success
+                                @elseif($news->status === 'not_approved') bg-danger
+                                @else bg-warning
+                                @endif">
+                                <i class="fas
+                                    @if($news->status === 'approved') fa-check-circle
+                                    @elseif($news->status === 'not_approved') fa-times-circle
+                                    @else fa-hourglass-half
+                                    @endif"></i>
+                            </div>
+                            <div class="card-wrap">
+                                <div class="card-header">
+                                    <h4>Approval Status</h4>
+                                </div>
+                                <div class="card-body">
+                                    <span class="
+                                        @if($news->status === 'approved') text-success
+                                        @elseif($news->status === 'not_approved') text-danger
+                                        @else text-warning
+                                        @endif">
+                                        {{ ucfirst(str_replace('_', ' ', $news->status)) }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+</div>
             </div>
+
+
+
+             <!-- Thumbnail -->
+            @if($news->image)
+                <div class="mb-5">
+                    <img src="{{ $news->image_url }}" alt="{{ $news->title }}"
+                         class="img-fluid rounded shadow"
+                         style="max-height: 500px; object-fit: cover; width:100%;">
+                </div>
+            @else
+                <div class="alert alert-warning mb-5">No Thumbnail Available</div>
+            @endif
 
                     <!-- Title -->
             <div class="section-body">
-               <h1 class="section-title display-1 font-weight-bold text-dark mb-4">
+               <div class="d-flex justify-content-between align-items-center">
+                <h1 class="display-6 font-weight-bold text-dark mb-4 mr-3">
                     {{ $news->title }}
                 </h1>
+                <div class="section-header-button">
+                    <a href="{{ route('news.edit', $news->code) }}"
+                        class="btn btn-primary">Edit News</a>
+                </div>
+               </div>
 
 
                 <div class="card">

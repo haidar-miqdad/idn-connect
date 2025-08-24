@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\News;
+use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
@@ -27,7 +28,7 @@ class NewsController extends Controller
 }
 
 
-    public function store(Request $request)
+public function store(Request $request)
 {
     $request->validate([
         'title'       => 'required',
@@ -38,20 +39,14 @@ class NewsController extends Controller
 
     $data = $request->all();
 
+    if ($request->hasFile('image')) {
+        $filename = 'news-' . time() . '.' . $request->image->extension();
+        $path = $request->image->storeAs('news', $filename, 'public');
+        $data['image'] = $filename; // Simpan hanya nama file
+    }
 
-
- if ($request->hasFile('image')) {
-    $filename = time() . '.' . $request->image->extension();
-    // simpan di storage/app/public/news
-    $path = $request->file('image')->storeAs('news', $filename, 'public');
-    $data['image'] = $path;
-}
-
-
-
-    // generate slug dari title
     $data['slug'] = Str::slug($request->title);
-    $data['user_id'] = auth()->id(); // kalau pakai login
+    $data['user_id'] = auth()->id();
 
     News::create($data);
 
@@ -59,9 +54,15 @@ class NewsController extends Controller
 }
 
 
-    public function edit($id){
-        $news = News::findOrFail($id);
-        return view('pages.news.edit', compact('news'));
+
+    public function edit($code){
+        $news = News::with(['user', 'category'])
+                ->where('code', $code)
+                ->firstOrFail();
+
+          $categories = Category::all();
+
+        return view('pages.news.edit', compact(['news', 'categories']));
     }
 
 public function show($code)
@@ -78,6 +79,13 @@ public function show($code)
 
 
         // $data = $request->all();
+          $data = $request->validate([
+                 'title' => 'required|string|max:255',
+                 'category_id' => 'required|exists:categories,id',
+                 'content' => 'required|string',
+                  'status' => 'required|in:pending,approved,not_approved'
+
+            ]);
 
         if ($request->has('title')) {
             $data['slug'] = Str::slug($request->title);

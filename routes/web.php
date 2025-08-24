@@ -9,6 +9,10 @@ Route::get('/', function () {
     return view('pages.auth.login');
 });
 
+Route::get('/home', function () {
+    return view('pages.dashboard')->name('home');
+});
+
 Route::middleware(['auth'])->get('home', function(){
     return view('pages.dashboard');
 });

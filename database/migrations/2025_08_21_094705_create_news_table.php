@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug');
             $table->string('image');
+            $table->enum('status', ['approved', 'pending', 'not_approved'])->default('pending');
             $table->longText('content');
             $table->timestamps();
         });

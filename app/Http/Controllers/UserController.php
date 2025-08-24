@@ -26,6 +26,13 @@ class UserController extends Controller
 }
 
 
+    public function create(User $user)
+{
+
+    return view('pages.users.create', compact('user'));
+}
+
+
     public function store(Request $request){
 
         // dd($request->all());
@@ -33,9 +40,11 @@ class UserController extends Controller
         try {
 
          $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8',
+            'phone' => 'nullable|string|max:15',
+            'address' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
@@ -56,6 +65,7 @@ class UserController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
+
 
     public function show(User $user)
 {
